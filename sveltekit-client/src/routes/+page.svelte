@@ -24,7 +24,7 @@
       <div class="pt-8 pl-4">
         <button
           type="submit"
-          class='h-[3rem] w-[21rem] bg-[#43C59D] rounded-md text-white text-lg  mt-[15rem]'
+          class='h-[3rem] w-[21rem] bg-blue-500 rounded-md text-white text-lg  mt-[15rem]'
         >Get my mood</button>
       </div>
     </form>

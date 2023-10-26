@@ -13,7 +13,7 @@
 
     const handleNextClick =()=>{
 
-        
+
         goto('/mood-tips')
     }
   
@@ -114,7 +114,7 @@
     <div class="pt-14 pl-4">
       <button
         on:click={handleNextClick}
-        class='h-[3rem] w-[21rem] bg-[#43C59D] rounded-md text-white text-lg  '
+        class='h-[3rem] w-[21rem] bg-blue-500 rounded-md text-white text-lg  '
       >Next</button>
     </div>
   </div>
