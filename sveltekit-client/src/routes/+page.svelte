@@ -4,9 +4,26 @@
   
     let dailyExp = writable('');
   
-    const handleSetDailyExp = () => {
+    const handleSetDailyExp = async() => {
       console.log($dailyExp);
       // You can add logic here to handle the daily experience as needed
+
+      const response = await fetch('/dailyexp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ dailyExp: $dailyExp }),
+      });
+
+      if (response.ok) {
+        // If the request was successful, navigate to '/mood-trends'
+        goto('/mood-trends');
+      } else {
+        // Handle the error case here
+        console.error('Failed to submit daily experience');
+      }
+
       goto('/mood-trends');
     };
   </script>
