@@ -3,7 +3,18 @@ import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt
 from io import BytesIO
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 import base64
+
+
+cred = credentials.Certificate("service.json")
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
+
+collection_ref = db.collection('mood')
 
 app = Flask(__name__)
 
@@ -57,14 +68,34 @@ def analyze_sentiment(text):
     compound_score = sentiment["compound"]
     
     if compound_score >= 0.05:
+        data_to_insert = {
+            "mood": "very_positive",
+        }
+        collection_ref.add(data_to_insert)
         return "very_positive"
     elif 0.05 > compound_score > 0.01:
+        data_to_insert = {
+            "mood": "positive",
+        }
+        collection_ref.add(data_to_insert)
         return "positive"
     elif -0.01 <= compound_score <= 0.01:
+        data_to_insert = {
+            "mood": "neutral",
+        }
+        collection_ref.add(data_to_insert)
         return "neutral"
     elif -0.01 > compound_score > -0.05:
+        data_to_insert = {
+            "mood": "negative",
+        }
+        collection_ref.add(data_to_insert)
         return "negative"
     else:
+        data_to_insert = {
+            "mood": "very_negative",
+        }
+        collection_ref.add(data_to_insert)
         return "very_negative"
         
 if __name__ == '__main__':
