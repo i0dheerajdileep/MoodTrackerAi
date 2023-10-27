@@ -54,7 +54,18 @@ def mood_chart():
 
 def analyze_sentiment(text):
     sentiment = analyzer.polarity_scores(text)
-    return "happy" if sentiment["compound"] > 0 else "sad"
-
+    compound_score = sentiment["compound"]
+    
+    if compound_score >= 0.05:
+        return "very_positive"
+    elif 0.05 > compound_score > 0.01:
+        return "positive"
+    elif -0.01 <= compound_score <= 0.01:
+        return "neutral"
+    elif -0.01 > compound_score > -0.05:
+        return "negative"
+    else:
+        return "very_negative"
+        
 if __name__ == '__main__':
     app.run(debug='True',host='127.0.0.1',port='8080')
