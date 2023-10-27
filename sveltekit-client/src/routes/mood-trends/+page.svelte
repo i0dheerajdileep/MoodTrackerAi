@@ -17,19 +17,19 @@
 
     onMount(async () => {
     // Make a GET request when the component is mounted
-    const response = await fetch('/trends');
+    // const response = await fetch('/trends');
 
-    if (response.ok) {
-      // If the request was successful, parse the JSON and update the store
-      const responseData = await response.json();
-      trendsData.set(responseData);
+    // if (response.ok) {
+    //   // If the request was successful, parse the JSON and update the store
+    //   const responseData = await response.json();
+    //   trendsData.set(responseData);
 
-      // You can also log or manipulate the data here as needed
-      console.log('Trends data fetched successfully', responseData);
-    } else {
-      // Handle the error case here
-      console.error('Failed to fetch trends data');
-    }
+    //   // You can also log or manipulate the data here as needed
+    //   console.log('Trends data fetched successfully', responseData);
+    // } else {
+    //   // Handle the error case here
+    //   console.error('Failed to fetch trends data');
+    // }
   });
 
 

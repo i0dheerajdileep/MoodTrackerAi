@@ -17,6 +17,8 @@
       });
 
       if (response.ok) {
+        const responseData = await response.json();
+        console.log('Response data:', responseData);
         // If the request was successful, navigate to '/mood-trends'
         goto('/mood-trends');
       } else {
