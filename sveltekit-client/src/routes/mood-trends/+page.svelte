@@ -1,6 +1,8 @@
 <script>
     import { scaleLinear, scaleBand } from 'd3';
+    import {onMount} from 'svelte'
     import { flip } from 'svelte/animate';
+    import { writable } from 'svelte/store';
     import { goto } from '$app/navigation'
   
     // Sample data for moods
@@ -10,6 +12,26 @@
       { mood: 'Sad', value: 0.3 },
       // Add more moods and values as needed
     ];
+    const trendsData = writable([]);
+
+
+    onMount(async () => {
+    // Make a GET request when the component is mounted
+    const response = await fetch('/trends');
+
+    if (response.ok) {
+      // If the request was successful, parse the JSON and update the store
+      const responseData = await response.json();
+      trendsData.set(responseData);
+
+      // You can also log or manipulate the data here as needed
+      console.log('Trends data fetched successfully', responseData);
+    } else {
+      // Handle the error case here
+      console.error('Failed to fetch trends data');
+    }
+  });
+
 
     const handleNextClick =()=>{
 

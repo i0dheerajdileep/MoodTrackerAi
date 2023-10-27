@@ -40,6 +40,7 @@ def submit_entry():
     entry = request.form['entry']
     mood = analyze_sentiment(entry)
     entries.append((entry, mood))
+    print(entries)
     return render_template('index.html', entries=entries)
 
 @app.route('/mood_chart')

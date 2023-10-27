@@ -1,5 +1,5 @@
 <script>
-    import { writable } from 'svelte/store';
+   import { writable } from 'svelte/store';
     import { goto } from '$app/navigation';
     import { sineOut } from 'svelte/easing';
     import { Progressbar } from 'flowbite-svelte';
@@ -40,7 +40,7 @@
         <div>
             <div class='flex flex-col mt-[1.5rem] justify-center items-center'>
                 <h3 class='text-[#1F695D] text-xl font-semibold ml-3 mt-1 '>Please do the specified tasks</h3>
-                <h3 class='text-[#1F695D] text-xl mt-5 mr-5 font-semibold'>Day 1</h3>
+                <!-- <h3 class='text-[#1F695D] text-xl mt-5 mr-5 font-semibold'>Day 1</h3> -->
             </div>
             <div class="p-10">
                 <Progressbar
