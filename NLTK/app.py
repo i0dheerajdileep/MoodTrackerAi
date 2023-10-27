@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt
@@ -6,7 +6,9 @@ from io import BytesIO
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from flask_cors import CORS
 import base64
+
 
 
 cred = credentials.Certificate("service.json")
@@ -17,6 +19,7 @@ db = firestore.client()
 collection_ref = db.collection('mood')
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Initialize NLTK sentiment analyzer
 nltk.download('vader_lexicon')
@@ -37,11 +40,16 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit_entry():
-    entry = request.form['entry']
+    data = request.get_json()
+    entry = data['mood']
+    # entry = request.form['mood']
     mood = analyze_sentiment(entry)
     entries.append((entry, mood))
-    print(entries)
-    return render_template('index.html', entries=entries)
+    response_data = {
+        "entry": entry,
+        "mood": mood
+    }
+    return jsonify(response_data)
 
 @app.route('/mood_chart')
 def mood_chart():
@@ -71,33 +79,43 @@ def analyze_sentiment(text):
     if compound_score >= 0.05:
         data_to_insert = {
             "mood": "very_positive",
+            "compound_score": compound_score,
+            "message": text
         }
         collection_ref.add(data_to_insert)
-        return "very_positive"
+        return compound_score
     elif 0.05 > compound_score > 0.01:
         data_to_insert = {
             "mood": "positive",
+            "compound_score": compound_score,
+            "message": text
         }
         collection_ref.add(data_to_insert)
-        return "positive"
+        return compound_score
     elif -0.01 <= compound_score <= 0.01:
         data_to_insert = {
             "mood": "neutral",
+            "compound_score": compound_score,
+            "message": text
         }
         collection_ref.add(data_to_insert)
-        return "neutral"
+        return compound_score
     elif -0.01 > compound_score > -0.05:
         data_to_insert = {
             "mood": "negative",
+            "compound_score": compound_score,
+            "message": text
         }
         collection_ref.add(data_to_insert)
-        return "negative"
+        return compound_score
     else:
         data_to_insert = {
             "mood": "very_negative",
+            "compound_score": compound_score,
+            "message": text
         }
         collection_ref.add(data_to_insert)
-        return "very_negative"
+        return compound_score
         
 if __name__ == '__main__':
     app.run(debug='True',host='127.0.0.1',port='8080')

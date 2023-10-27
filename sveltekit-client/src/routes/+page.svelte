@@ -8,12 +8,12 @@
       console.log($dailyExp);
       // You can add logic here to handle the daily experience as needed
 
-      const response = await fetch('/dailyexp', {
+      const response = await fetch('http://127.0.0.1:8080/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ dailyExp: $dailyExp }),
+        body: JSON.stringify({ mood: $dailyExp }),
       });
 
       if (response.ok) {
