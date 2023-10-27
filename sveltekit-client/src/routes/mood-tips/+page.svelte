@@ -3,6 +3,7 @@
     import { goto } from '$app/navigation';
     import { sineOut } from 'svelte/easing';
     import { Progressbar } from 'flowbite-svelte';
+    import {happyTasks,sadTasks,neutralTasks, moodVal} from '../../store/store'
 
     let total = writable(0);
     let tasks = writable([]);
@@ -26,13 +27,17 @@
         goto('/success');
     };
 
-    // Dummy tasks data
-    tasks.set([
-        { id: 1, goal_id: 1, day: '1', taskname: 'Dummy Task 1' },
-        { id: 2, goal_id: 1, day: '1', taskname: 'Dummy Task 2' },
-        { id: 3, goal_id: 1, day: '1', taskname: 'Dummy Task 3' }
-        // Add more dummy tasks as needed
-    ]);
+    if(0.05>moodVal>0.01 )
+    {
+        tasks.set(happyTasks)
+    }
+    if(0.01>=moodVal>0.01){
+        tasks.set(neutralTasks)
+    }
+    if(-0.01>moodVal>-0.05){
+        tasks.set(sadTasks)
+    }
+    console.log("tasks",$tasks)
 </script>
 
 <div class='bg-gray-100 h-screen'>
@@ -60,7 +65,7 @@
             <ul class="list-disc pl-8 space-y-3 ml-[20px]">
                 {#each $tasks as task (task.id)}
                     <li class='flex flex-row'>
-                        <label for={`item${task.id}`} class='text-[#5B5858] text-lg w-[250px] font-medium'>{task.taskname}</label>
+                        <label for={`item${task.id}`} class='text-[#5B5858] text-lg w-[250px] font-medium'>{task.description}</label>
                         <input
                             type="checkbox"
                             id={`item${task.id}`}

@@ -1,6 +1,7 @@
 <script>
     import { writable } from 'svelte/store';
     import { goto } from '$app/navigation'
+  import { moodVal } from '../store/store';
   
     let dailyExp = writable('');
   
@@ -19,6 +20,8 @@
       if (response.ok) {
         const responseData = await response.json();
         console.log('Response data:', responseData);
+        await moodVal.set(responseData.mood)
+        console.log("moodval",$moodVal)
         // If the request was successful, navigate to '/mood-trends'
         goto('/mood-trends');
       } else {
